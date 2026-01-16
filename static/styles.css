@@ -1,0 +1,101 @@
+:root {
+  --oj-blue: #0d6efd;
+  --oj-red: #dc3545;
+  --oj-yellow: #ffc107;
+  --oj-green: #198754;
+
+  /* New reusable gradients */
+  --oj-gradient-primary: linear-gradient(135deg, var(--oj-blue), var(--oj-red));
+  --oj-gradient-secondary: linear-gradient(135deg, var(--oj-yellow), var(--oj-green));
+  --oj-gradient-brand: linear-gradient(135deg, var(--oj-blue), var(--oj-red), var(--oj-yellow), var(--oj-green));
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(135deg, var(--oj-blue), var(--oj-green)); /* clean 2-color gradient */
+  color: white;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1rem;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.hero .lead {
+  font-size: 1.5rem;
+  opacity: 0.95;
+}
+
+/* Gradient buttons */
+.btn-gradient {
+  background: var(--oj-gradient-primary);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  transition: opacity 0.3s;
+}
+.btn-gradient:hover {
+  opacity: 0.9;
+}
+
+.btn-gradient-secondary {
+  background: var(--oj-gradient-secondary);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  transition: opacity 0.3s;
+}
+.btn-gradient-secondary:hover {
+  opacity: 0.9;
+}
+
+/* Feature cards with gradient borders */
+.feature-card {
+  transition: transform 0.2s;
+  border: 3px solid transparent;
+  border-image: var(--oj-gradient-secondary) 1;
+}
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.gradient-text {
+  background: var(--oj-gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navbar */
+.navbar {
+  padding: 1rem 2rem;
+  background: white !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-left: 1.5rem;
+  color: #333;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--oj-blue);
+  transform: translateY(-2px);
+}

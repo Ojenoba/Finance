@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Export Portfolio
+{% endblock %}
+
+{% block main %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card shadow-lg border-0" style="max-width: 450px; width: 100%;">
+        <div class="card-body p-4">
+            <h2 class="text-center mb-4 fw-bold text-primary">⬇️ Export Portfolio</h2>
+            <p class="text-muted text-center mb-4">
+                Download your portfolio data as a CSV file for record keeping or analysis.
+            </p>
+
+            <form action="/export" method="post" class="needs-validation" novalidate>
+                <!-- Export Options -->
+                <div class="mb-3">
+                    <label for="format" class="form-label fw-semibold">File Format</label>
+                    <select class="form-select" id="format" name="format" required>
+                        <option value="csv" selected>CSV (Comma-Separated Values)</option>
+                        <option value="xlsx">Excel (.xlsx)</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a file format.</div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">Export</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}

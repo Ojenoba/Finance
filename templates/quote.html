@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card shadow-lg border-0" style="max-width: 500px; width: 100%;">
+        <div class="card-body p-4">
+            <h2 class="text-center mb-4 fw-bold text-primary">📈 Get a Quote</h2>
+
+            <!-- Quote Form -->
+            <form action="/quote" method="post" autocomplete="off" class="needs-validation" novalidate>
+                <div class="mb-3 position-relative">
+                    <label for="symbol-input" class="form-label fw-semibold">Stock Symbol</label>
+                    <input autofocus
+                           class="form-control"
+                           id="symbol-input"
+                           name="symbol"
+                           placeholder="e.g. AAPL"
+                           type="text"
+                           required>
+                    <div class="invalid-feedback">Please enter a stock symbol.</div>
+
+                    <!-- Suggestions dropdown -->
+                    <div id="suggestions" class="list-group position-absolute w-100 shadow-sm"
+                         style="z-index: 1000; display: none;"></div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" type="submit">Look Up</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+                </div>
+            </form>
+
+            <!-- Quote Result Section -->
+            {% if quote %}
+            <div class="mt-4">
+                <h5 class="fw-bold text-success">Result:</h5>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Symbol:</strong> {{ quote.symbol }}</li>
+                    <li class="list-group-item"><strong>Name:</strong> {{ quote.name }}</li>
+                    <li class="list-group-item"><strong>Price:</strong> {{ quote.price|usd }}</li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+    // Autocomplete
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("symbol-input");
+        const suggestionsBox = document.getElementById("suggestions");
+
+        input.addEventListener("input", async function() {
+            const query = input.value.trim();
+            if (query.length < 1) {
+                suggestionsBox.style.display = "none";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/autocomplete?query=${encodeURIComponent(query)}`);
+                const results = await response.json();
+
+                suggestionsBox.innerHTML = "";
+                if (results.length > 0) {
+                    results.forEach(stock => {
+                        const item = document.createElement("button");
+                        item.type = "button";
+                        item.className = "list-group-item list-group-item-action";
+                        item.textContent = stock.symbol ? `${stock.symbol} - ${stock.name}` : stock;
+                        item.onclick = () => {
+                            input.value = stock.symbol || stock;
+                            suggestionsBox.style.display = "none";
+                        };
+                        suggestionsBox.appendChild(item);
+                    });
+                    suggestionsBox.style.display = "block";
+                } else {
+                    suggestionsBox.style.display = "none";
+                }
+            } catch (err) {
+                console.error("Autocomplete error:", err);
+                suggestionsBox.style.display = "none";
+            }
+        });
+
+        document.addEventListener("click", function(e) {
+            if (!suggestionsBox.contains(e.target) && e.target !== input) {
+                suggestionsBox.style.display = "none";
+            }
+        });
+    });
+</script>
+{% endblock %}

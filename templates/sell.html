@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell Stocks
+{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Sell Stocks</h2>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Use prefilled_symbol if provided -->
+            <form action="{{ url_for('sell', symbol=prefilled_symbol) if prefilled_symbol else url_for('sell') }}"
+                  method="post"
+                  class="needs-validation"
+                  novalidate>
+
+                <div class="mb-3">
+                    <label for="symbol" class="form-label">Select Stock</label>
+                    <select class="form-select" id="symbol" name="symbol" required>
+                        <option disabled value="">Select a stock</option>
+                        {% for stock in stocks %}
+                            <option value="{{ stock.symbol }}"
+                                {% if prefilled_symbol and stock.symbol == prefilled_symbol %}selected{% endif %}>
+                                {{ stock.symbol }} ({{ stock.total_shares }} shares)
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a stock to sell.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="shares" class="form-label">Number of Shares</label>
+                    <input class="form-control" id="shares" name="shares" placeholder="e.g. 5" type="number" min="1" required>
+                    <div class="invalid-feedback">
+                        Please enter a valid number of shares.
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-danger" type="submit">Sell</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}

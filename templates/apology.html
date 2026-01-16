@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Apology
+{% endblock %}
+
+{% block main %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card shadow-lg border-0 text-center" style="max-width: 500px; width: 100%;">
+        <div class="card-body p-4">
+            <h2 class="fw-bold text-danger mb-4">😿 Oops, Something Went Wrong</h2>
+
+            <!-- Meme Image -->
+            <img alt="{{ top }}" 
+                 class="border img-fluid rounded shadow-sm mb-3" 
+                 src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/CsCgN7Ll.png&width=400" 
+                 title="{{ top }}">
+
+            <!-- Back Button -->
+            <div class="d-grid mt-3">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

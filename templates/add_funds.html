@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Funds
+{% endblock %}
+
+{% block main %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card shadow-lg border-0" style="max-width: 400px; width: 100%;">
+        <div class="card-body p-4">
+            <h2 class="text-center mb-4 fw-bold text-success">💰 Add Funds</h2>
+
+            <form action="/add-funds" method="post" class="needs-validation" novalidate>
+                <!-- Amount Input -->
+                <div class="mb-3">
+                    <label for="amount" class="form-label fw-semibold">Deposit Amount ($)</label>
+                    <input class="form-control" id="amount" name="amount" placeholder="Enter amount" type="number" min="1" required>
+                    <div class="invalid-feedback">Please enter a valid deposit amount.</div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-grid gap-2">
+                    <button class="btn btn-success" type="submit">Deposit</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}
