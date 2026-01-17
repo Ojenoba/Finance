@@ -5,5 +5,20 @@
 {% endblock %}
 
 {% block main %}
-    <p>A share of {{ name }} ({{ symbol }}) costs {{ price }}.</p>
+<div class="container mt-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+            <p class="fs-5">
+                A share of <strong>{{ name }}</strong> ({{ symbol }}) costs 
+                <span class="fw-bold text-primary">{{ price }}</span>.
+            </p>
+
+            <!-- Navigation Buttons -->
+            <div class="d-grid gap-2 mt-3">
+                <a href="javascript:history.back()" class="btn btn-outline-secondary">⬅️ Back</a>
+                <a href="{{ url_for('quote') }}" class="btn btn-primary">🔍 Look Up Another Stock</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
